@@ -1,7 +1,4 @@
-body {
-  background: #f9f9f9;
-  height: 100%;
-}
+
 
 .parent-box {
   margin-top: 50px;
@@ -17,4 +14,3 @@ body {
 .parent-box .box table th {
   vertical-align: middle;
 }
-/*# sourceMappingURL=style.css.map */

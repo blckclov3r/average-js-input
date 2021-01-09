@@ -1,11 +1,27 @@
-
-const firstQ = document.getElementById("firstQ");
-const secondQ = document.getElementById("secondQ");
-const averageQ =  document.getElementById("avg");
+const firstQ = document.getElementsByName("firstQuarter")[0];
+const secondQ = document.getElementsByName("secondQuarter")[0];
+const averageQ =  document.getElementsByName("finalGrade")[0];
 const remarksQ = document.getElementById("rmk");
 
+const table = document.getElementById("mTable");
+var cells = table.getElementsByTagName("td");
+// console.log(cells)
+for(var i=0;i<cells.length;i++){
+    cells[i].onclick = function(){
+        
+    }
+}
+
+
+// var rowCount = $('table').find('tr').length; //3
+// for(var i = 0;i < rowCount; i++){
+//     console.log(i)
+// }
+
+
+
 function average(){
-    
+    console.log(firstQ.value)
     //check if the first Quarter && second Quarter input is empty
     if(firstQ.value.trim() == '' || secondQ.value.trim() == ''){
         remarksQ.innerHTML = '';
