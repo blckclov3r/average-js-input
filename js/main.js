@@ -1,73 +1,82 @@
-const firstQ = document.getElementsByName("firstQuarter")[0];
-const secondQ = document.getElementsByName("secondQuarter")[0];
-const averageQ =  document.getElementsByName("finalGrade")[0];
-const remarksQ = document.getElementById("rmk");
+$(document).ready(function(){
+   
+    //input click
+    $(document).on('click','.row_data',function(event){
+        event.preventDefault();
 
-const table = document.getElementById("mTable");
-var cells = table.getElementsByTagName("td");
-// console.log(cells)
-for(var i=0;i<cells.length;i++){
-    cells[i].onclick = function(){
-        
-    }
-}
+        $(this).focus();
+        document.execCommand('selectAll',false,null);
+
+    });
 
 
-// var rowCount = $('table').find('tr').length; //3
-// for(var i = 0;i < rowCount; i++){
-//     console.log(i)
-// }
+    //input focus out
+    $(document).on('focusout','.row_data',function(event){
+        event.preventDefault();
+
+        let tbl_row = $(this).closest('tr');
+
+        let tblArr = {};
+
+        let firstQuarter = 0;
+        let secondQuarter = 0;
+        let avg = 0.0;
+
+        tbl_row.find('.row_data').each(function(index,val){
+            let col_name = $(this).attr('name');
+            let col_val = $(this).val();
+            tblArr[col_name] = parseInt(col_val);
+
+            firstQuarter = parseInt(tblArr['firstQuarter']);
+            secondQuarter = parseInt(tblArr['secondQuarter']);
+
+            if(firstQuarter == 0 || secondQuarter == 0){
+                return;
+            }     
+         
+            avg = parseFloat((firstQuarter+secondQuarter)/2);
+            if(avg <75 && avg != 0){
+                $(this).filter(':not([name]), [name="remark"]').val("Failed")
+            }
+            else if(avg > 75){
+                $(this).filter(':not([name]), [name="remark"]').val("Passed")
+            }
+            else{
+                $(this).filter(':not([name]), [name="remark"]').val("?")
+            }
+
+            //if the value is integer/float
+            // if(!isNaN(avg)){
+            //     averageQ.value = avg;
+            // }
+
+
+            $(this).filter(':not([name]), [name="finalGrade"]').val(avg)
+        });
+
+      
+    });
+
+    $("input").keypress(function(evt){
+        evt = evt ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    });
+
+});
 
 
 
-function average(){
-    console.log(firstQ.value)
-    //check if the first Quarter && second Quarter input is empty
-    if(firstQ.value.trim() == '' || secondQ.value.trim() == ''){
-        remarksQ.innerHTML = '';
-        return;
-    }
-
-    // string -> Integer
-    let a = parseInt(firstQ.value);
-    let b = parseInt(secondQ.value);
-    
-    let avg = ((a+b)/2);
-
-    // if avg is a Number == true && get the output
-    if(!isNaN(avg)){
-        averageQ.value = avg;
-    }
- 
-    if(avg <75){
-        remarksQ.innerHTML = "Failed";
-        remarksQ.style.color = "red";
-    }else{
-        remarksQ.innerHTML = "Passed";
-        remarksQ.style.color = "green";
-    }
-
-  
-}
 
 function onLimit100(val){
-
     if(Number(val.value) > 100){
         val.value = 100;
     }
     
-    //call average every keypress
-    average();
-    console.log("onLimit100 invoked");
 }
 
 
 // input checker > number only
-function isNumber(evt){
-    evt = evt ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    return true;
-}

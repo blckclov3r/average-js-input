@@ -1,16 +1,22 @@
 body{
     background: #f9f9f9;
     height: 100%;
+    width: 100%;
 }
 
+input{
+    border: 1px solid #ccc;
+}
+
+input:focus{
+    outline: none;
+}
 
 .parent-box{
-    
     margin-top: 50px;
   
 
     .box { 
-        padding: 8px 35px; 
         font-size: 1.1rem; 
         color: #006937; 
         border: 10px solid green; 
@@ -20,3 +26,5 @@ body{
         }
     } 
 }
+
+//blckclov3r
