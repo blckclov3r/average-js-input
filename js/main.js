@@ -1,21 +1,16 @@
 $(document).ready(function () {
 
+    //focus & select all
+    $("input[type=text]").focus(function() { 
+        var save_this = $(this);
+        window.setTimeout (function(){ 
+           save_this.select(); 
+        },100);
+    });
+
     //input click
     $(document).on('click', '.row_data', function (event) {
         event.preventDefault();
-
-        
-        $(this).focus(); //focus
-        document.execCommand('selectAll', false, null); //select all
-
-        
-        let tbl_row = $(this).closest('tr');
-
-        let tblArr = {};
-
-        let firstQuarter = 0;
-        let secondQuarter = 0;
-        let avg = 0.0;
 
         $(':input').on('propertychange input', function (e) {
             var valueChanged = false;
@@ -29,8 +24,23 @@ $(document).ready(function () {
 
                 /* Code goes here */
 
+                let tbl_row = $(this).closest('tr');
+
+                let tblArr = {};
+
+                let firstQuarter = 0;
+                let secondQuarter = 0;
+                let avg = 0.0;
+
                 if (Number($(this).val()) > 100) {
                     $(this).val(100);
+                }else if($(this).val().length <1){
+                    tbl_row.find('.row_data').each(function (index, val) {
+
+                        tbl_row.find('.row_data').filter(':not([col_name]), [col_name="finalGrade"]').val('');
+                        tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val('');
+                        
+                    });
                 }
 
                 if($(this).val().length>1){
@@ -39,21 +49,18 @@ $(document).ready(function () {
                         let col_name = $(this).attr('col_name');
                         let col_val = $(this).val();
                         tblArr[col_name] = parseInt(col_val);
-            
-            
+                        
+
                         firstQuarter = parseInt(tblArr['firstQuarter']);
                         secondQuarter = parseInt(tblArr['secondQuarter']);
-            
+
+
                         if (firstQuarter == 0 || secondQuarter == 0) {
                             return;
                         }
             
                         avg = parseFloat((firstQuarter + secondQuarter) / 2);
-                        if (firstQuarter == 0) {
-                            avg = 0;
-                        } else if (secondQuarter == 0) {
-                            avg = 0;
-                        }
+                
             
                         if (avg < 75 && avg != 0) {
                             tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val("Failed");
@@ -62,20 +69,21 @@ $(document).ready(function () {
                             tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val("Passed");
                         }
                         else {
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val("");
+                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val('');
                         }
             
                         if (!isNaN(avg)) {
                             tbl_row.find('.row_data').filter(':not([col_name]), [col_name="finalGrade"]').val(avg);
                         } else {
                             tbl_row.find('.row_data').filter(':not([col_name]), [col_name="finalGrade"]').val('');
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val("");
+                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val('');
                         }
             
                     });
                 }
             }
         });
+
     });
 
 
