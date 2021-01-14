@@ -3,26 +3,33 @@ $(document).ready(function () {
 
    $('tr').each(function(){
 
-       var finalGrade = 0;
        let tblArr = {};
 
        $(this).find('.row_data').each(function(){
         let col_name = $(this).attr('col_name');
         let col_val = $(this).val();
         tblArr[col_name] = parseInt(col_val);
+        
 
-        finalGrade = parseInt(tblArr['finalGrade']);
-        console.log(finalGrade);
-        if(finalGrade > 75){
+        firstQuarter = parseInt(tblArr['firstQuarter']);
+        secondQuarter = parseInt(tblArr['secondQuarter']);
+
+        avg = parseFloat((firstQuarter + secondQuarter) / 2);
+
+        $(this).filter(':not([col_name]), [col_name="finalGrade"]').val(avg);
+
+        if(avg >= 75){
             $(this).filter(':not([col_name]), [col_name="remark"]').val('Passed').css("color","green");
          
+        }else if(avg == ''){
+            $(this).filter(':not([col_name]), [col_name="remark"]').val('');
         }else{
             $(this).filter(':not([col_name]), [col_name="remark"]').val('Fail').css("color","red");
         }
        });
 
-       
-   })
+
+    });
 
 
    
