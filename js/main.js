@@ -1,5 +1,33 @@
 $(document).ready(function () {
 
+
+   $('tr').each(function(){
+
+       var finalGrade = 0;
+       let tblArr = {};
+
+       $(this).find('.row_data').each(function(){
+        let col_name = $(this).attr('col_name');
+        let col_val = $(this).val();
+        tblArr[col_name] = parseInt(col_val);
+
+        finalGrade = parseInt(tblArr['finalGrade']);
+        console.log(finalGrade);
+        if(finalGrade > 75){
+            $(this).filter(':not([col_name]), [col_name="remark"]').val('Passed').css("color","green");
+         
+        }else{
+            $(this).filter(':not([col_name]), [col_name="remark"]').val('Fail').css("color","red");
+        }
+       });
+
+       
+   })
+
+
+   
+
+
     //focus & select all
     $("input[type=text]").focus(function() { 
         var save_this = $(this);
@@ -8,7 +36,8 @@ $(document).ready(function () {
         },100);
     });
 
-    //input click
+
+    //onClick input
     $(document).on('click', '.row_data', function (event) {
         event.preventDefault();
 
@@ -34,12 +63,12 @@ $(document).ready(function () {
 
                 if (Number($(this).val()) > 100) {
                     $(this).val(100);
-                }else if($(this).val().length <1){
+                }else if($(this).val().length <2){
                     tbl_row.find('.row_data').each(function (index, val) {
 
-                        tbl_row.find('.row_data').filter(':not([col_name]), [col_name="finalGrade"]').val('');
-                        tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val('');
-                        
+                        $(this).filter(':not([col_name]), [col_name="finalGrade"]').val('');
+                        $(this).filter(':not([col_name]), [col_name="remark"]').val('');
+
                     });
                 }
 
@@ -63,20 +92,21 @@ $(document).ready(function () {
                 
             
                         if (avg < 75 && avg != 0) {
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val("Failed");
+                            $(this).filter(':not([col_name]), [col_name="remark"]').val("Failed").css("color","red");
                         }
                         else if (avg > 75) {
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val("Passed");
+                            $(this).filter(':not([col_name]), [col_name="remark"]').val("Passed").css("color","green");
                         }
                         else {
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val('');
+                            $(this).filter(':not([col_name]), [col_name="remark"]').val('');
                         }
             
                         if (!isNaN(avg)) {
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="finalGrade"]').val(avg);
+                            $(this).filter(':not([col_name]), [col_name="finalGrade"]').val(avg);
                         } else {
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="finalGrade"]').val('');
-                            tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val('');
+                            $(this).filter(':not([col_name]), [col_name="finalGrade"]').val('');
+                            $(this).filter(':not([col_name]), [col_name="remark"]').val('');
+                            // tbl_row.find('.row_data').filter(':not([col_name]), [col_name="remark"]').val('');
                         }
             
                     });
